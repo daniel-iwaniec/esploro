@@ -27,6 +27,12 @@ spec:
             limits: { memory: "250Mi", cpu: "200m" }
           securityContext:
             allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /app
+              name: volume
+      volumes:
+        - name: volume
+          hostPath: { path: /app/servicea }
 ---
 apiVersion: v1
 kind: Service

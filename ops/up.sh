@@ -19,12 +19,15 @@ fi
 printf "\n\e[1;32m Start minikube \e[0m\n\n"
 if [ "$START" = true ]; then
   if [ "$MACHINE" == "Mac" ]; then
-      minikube -p minikube start --addons=ingress --addons=ingress-dns --addons=metrics-server \
+      minikube -p minikube start --mount-string="$(pwd)/app:/app" --mount \
+               --addons=ingress --addons=ingress-dns --addons=metrics-server \
                --driver=docker --static-ip 10.10.10.10 --ports 80:80 --ports 443:443
   else
-      minikube -p minikube start --addons=ingress --addons=ingress-dns --addons=metrics-server \
+      minikube -p minikube start --mount-string="$(pwd)/app:/app" --mount \
+               --addons=ingress --addons=ingress-dns --addons=metrics-server \
                --driver=docker --static-ip 10.10.10.10
   fi
+  kubectl -n ingress-nginx rollout status deployment/ingress-nginx-controller
 else
   printf "\e[1;34m Minikube running \e[0m\n"
 fi

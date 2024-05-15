@@ -20,7 +20,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: servicea
-          image: ghcr.io/daniel-iwaniec/servicea:1.0.1
+          image: ghcr.io/daniel-iwaniec/servicea:1.0.2
           imagePullPolicy: IfNotPresent
           resources:
             requests: { memory: "100Mi", cpu: "100m" }

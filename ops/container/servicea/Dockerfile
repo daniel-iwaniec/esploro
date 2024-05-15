@@ -9,4 +9,4 @@ RUN /script/dependencies.sh
 WORKDIR /app
 USER 1000:1000
 
-CMD ["node", "/app/index.js"]
+CMD ["npm", "run", "start:dev"]

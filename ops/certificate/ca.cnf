@@ -1,0 +1,15 @@
+[req]
+default_md = sha256
+prompt = no
+req_extensions = req_ext
+distinguished_name = req_distinguished_name
+[req_distinguished_name]
+countryName = PL
+stateOrProvinceName = Masovian
+localityName = Warsaw
+organizationName = Esploro
+organizationalUnitName = Esploro
+commonName = Esploro
+[req_ext]
+keyUsage=critical,digitalSignature,keyEncipherment
+extendedKeyUsage=critical,serverAuth,clientAuth

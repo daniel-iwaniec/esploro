@@ -1,2 +1,6 @@
 .idea/
 ghcr-secret.yaml
+tls-secret.yaml
+*.crt
+*.csr
+*.key

@@ -52,6 +52,10 @@ kind: Ingress
 metadata:
   name: servicea-ingress
 spec:
+  tls:
+    - hosts:
+        - servicea.esploro.lan
+      secretName: tls-secret
   rules:
     - host: servicea.esploro.lan
       http:

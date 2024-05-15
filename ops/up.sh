@@ -35,6 +35,7 @@ fi
 printf "\n\e[1;32m Prepare configuration \e[0m\n\n"
 kubectl apply -f ops/cluster/dev/dev-service-account.yaml
 kubectl apply -f ops/cluster/dev/ghcr-secret.yaml
+kubectl apply -f ops/cluster/dev/tls-secret.yaml
 printf "\n\e[1;32m Deploy applications \e[0m\n\n"
 kubectl apply -f ops/cluster/dev/servicea-deployment.yaml
 kubectl rollout status deployment/servicea

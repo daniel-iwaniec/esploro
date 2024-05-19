@@ -4,3 +4,4 @@ tls-secret.yaml
 *.crt
 *.csr
 *.key
+app/database

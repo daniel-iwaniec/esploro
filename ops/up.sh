@@ -16,6 +16,8 @@ else
   START=false
 fi
 
+install -m 700 -d app/database
+
 printf "\n\e[1;32m Start minikube \e[0m\n\n"
 if [ "$START" = true ]; then
   if [ "$MACHINE" == "Mac" ]; then
@@ -36,6 +38,9 @@ printf "\n\e[1;32m Prepare configuration \e[0m\n\n"
 kubectl apply -f ops/cluster/dev/dev-service-account.yaml
 kubectl apply -f ops/cluster/dev/ghcr-secret.yaml
 kubectl apply -f ops/cluster/dev/tls-secret.yaml
+printf "\n\e[1;32m Deploy database \e[0m\n\n"
+kubectl apply -f ops/cluster/dev/database-deployment.yaml
+kubectl rollout status deployment/database
 printf "\n\e[1;32m Deploy applications \e[0m\n\n"
 kubectl apply -f ops/cluster/dev/servicea-deployment.yaml
 kubectl rollout status deployment/servicea

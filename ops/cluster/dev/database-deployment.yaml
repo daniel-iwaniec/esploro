@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+  labels: {app: database}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: database}
+  template:
+    metadata:
+      labels: {app: database}
+    spec:
+      serviceAccountName: dev
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: database
+          image: ghcr.io/daniel-iwaniec/database:1.0.2
+          resources:
+            requests: { memory: "250Mi", cpu: "100m" }
+            limits: { memory: "800Mi", cpu: "1000m" }
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: volume
+      volumes:
+        - name: volume
+          hostPath: { path: /app/database }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+  labels: {app: database}
+spec:
+  type: NodePort
+  selector: {app: database}
+  ports:
+    - port: 5432
+      targetPort: 5432
+      nodePort: 30888

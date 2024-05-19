@@ -11,4 +11,4 @@ USER 1000:1000
 
 RUN /user-script/dependencies.sh
 
-CMD ["gunicorn", "-b", "0.0.0.0:80", "serviceb.wsgi:application"]
+CMD ["/home/python/.local/bin/gunicorn", "-b", "0.0.0.0:80", "serviceb.wsgi:application"]

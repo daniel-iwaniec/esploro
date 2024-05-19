@@ -11,4 +11,4 @@ USER 1000:1000
 
 RUN /user-script/dependencies.sh
 
-CMD ["sleep", "infinity"]
+CMD ["gunicorn", "-b", "0.0.0.0:80", "serviceb.wsgi:application"]

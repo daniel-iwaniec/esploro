@@ -20,7 +20,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: serviceb
-          image: ghcr.io/daniel-iwaniec/serviceb:1.0.1
+          image: ghcr.io/daniel-iwaniec/serviceb:1.0.2
           imagePullPolicy: IfNotPresent
           resources:
             requests: { memory: "500Mi", cpu: "500m" }

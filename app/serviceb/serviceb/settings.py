@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-@yva^0$gpv4-s)11k1b65(6^5kb5z1+1!cxqmdx+fdx407wy(#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['serviceb.esploro.lan']
 
 
 # Application definition

@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: serviced-env
+data:
+  APP_ENV: "dev"
+  APP_SECRET: "9fb61c156eb3829df37205a0a97fb382"
+  DATABASE_URL: "postgresql://esploro:esploro@database:5432/esploro?serverVersion=16&charset=utf8"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: serviced
+  labels: { app: serviced }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: serviced }
+  template:
+    metadata:
+      labels: { app: serviced }
+    spec:
+      serviceAccountName: dev
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: serviced
+          image: ghcr.io/daniel-iwaniec/serviced:1.0.0
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests: { memory: "100Mi", cpu: "100m" }
+            limits: { memory: "500Mi", cpu: "500m" }
+          envFrom: [{configMapRef: { name: serviced-env }}]
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /app
+              name: volume
+      volumes:
+        - name: volume
+          hostPath: { path: /app/serviced }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: serviced
+  labels: { app: serviced }
+spec:
+  type: ClusterIP
+  selector: { app: serviced }
+  ports:
+    - port: 9000
+      targetPort: 9000
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: serviced-ingress-env
+data:
+  SCRIPT_FILENAME: "/app/public/index.php"
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "FCGI"
+    nginx.ingress.kubernetes.io/fastcgi-index: "index.php"
+    nginx.ingress.kubernetes.io/fastcgi-params-configmap: "serviced-ingress-env"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - serviced.esploro.lan
+      secretName: tls-secret
+  rules:
+    - host: serviced.esploro.lan
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: serviced
+                port:
+                  number: 9000

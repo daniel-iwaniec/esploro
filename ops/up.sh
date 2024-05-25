@@ -46,5 +46,7 @@ kubectl apply -f ops/cluster/dev/servicea-deployment.yaml
 kubectl rollout status deployment/servicea
 kubectl apply -f ops/cluster/dev/serviceb-deployment.yaml
 kubectl rollout status deployment/serviceb
+kubectl apply -f ops/cluster/dev/serviced-deployment.yaml
+kubectl rollout status deployment/serviced
 
 printf "\n\e[1;32m Done 🎉 \e[0m\n\n"

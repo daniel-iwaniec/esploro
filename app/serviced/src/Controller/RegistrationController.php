@@ -55,13 +55,13 @@ class RegistrationController extends AbstractController
                     ->from(new Address('esploro@esploro.lan', 'Esploro'))
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('confirm.html.twig')
             );
 
             return $this->security->login($user, 'form_login', 'main');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('register.html.twig', [
             'registrationForm' => $form,
         ]);
     }

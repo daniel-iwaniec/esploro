@@ -10,6 +10,13 @@
         {% endblock %}
     </head>
     <body>
+        {% for flash_type, flash_messages in app.flashes %}
+            {% for flash_message in flash_messages %}
+                <div class="alert alert-{{ flash_type }}">
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
         {% block body %}{% endblock %}
     </body>
 </html>

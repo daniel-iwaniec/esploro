@@ -19,7 +19,8 @@
         "symfony/security-bundle": "7.0.*",
         "symfony/security-csrf": "7.0.*",
         "symfony/uid": "7.0.*",
-        "symfony/yaml": "7.0.*"
+        "symfony/yaml": "7.0.*",
+        "symfonycasts/verify-email-bundle": "^1.17"
     },
     "config": {
         "allow-plugins": {

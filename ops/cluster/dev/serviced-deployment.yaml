@@ -6,6 +6,7 @@ data:
   APP_ENV: "dev"
   APP_SECRET: "9fb61c156eb3829df37205a0a97fb382"
   DATABASE_URL: "postgresql://esploro:esploro@database:5432/esploro?serverVersion=16&charset=utf8"
+  MAILER_DSN: 'smtp://mail:1025'
 ---
 apiVersion: apps/v1
 kind: Deployment

@@ -41,6 +41,9 @@ kubectl apply -f ops/cluster/dev/tls-secret.yaml
 printf "\n\e[1;32m Deploy database \e[0m\n\n"
 kubectl apply -f ops/cluster/dev/database-deployment.yaml
 kubectl rollout status deployment/database
+printf "\n\e[1;32m Deploy mail service \e[0m\n\n"
+kubectl apply -f ops/cluster/dev/mail-deployment.yaml
+kubectl rollout status deployment/mail
 printf "\n\e[1;32m Deploy applications \e[0m\n\n"
 kubectl apply -f ops/cluster/dev/servicea-deployment.yaml
 kubectl rollout status deployment/servicea

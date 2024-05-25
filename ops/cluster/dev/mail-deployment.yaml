@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mail
+  labels: { app: mail }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: mail }
+  template:
+    metadata:
+      labels: { app: mail }
+    spec:
+      serviceAccountName: dev
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: mail
+          image: jcalonso/mailhog:v1.0.1
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests: { memory: "100Mi", cpu: "100m" }
+            limits: { memory: "250Mi", cpu: "200m" }
+          securityContext:
+            allowPrivilegeEscalation: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mail
+  labels: { app: mail }
+spec:
+  type: ClusterIP
+  selector: { app: mail }
+  ports:
+    - name: web
+      port: 8025
+      targetPort: 8025
+    - name: smtp
+      port: 1025
+      targetPort: 1025
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mail-ingress
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - mail.esploro.lan
+      secretName: tls-secret
+  rules:
+    - host: mail.esploro.lan
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mail
+                port:
+                  number: 8025

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/', name: 'index', methods: ['GET'])]
+#[Route('/', methods: ['GET'])]
 class Index extends AbstractController
 {
     public function __invoke(): Response

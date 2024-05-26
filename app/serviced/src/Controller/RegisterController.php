@@ -32,7 +32,7 @@ class RegisterController extends AbstractController
     /**
      * @throws TransportExceptionInterface
      */
-    #[Route('/register', name: 'app_register')]
+    #[Route('/register', name: 'register', methods: ['GET'])]
     public function register(Request $request, ): Response
     {
         $user = new User();
@@ -66,7 +66,7 @@ class RegisterController extends AbstractController
         ]);
     }
 
-    #[Route('/verify/email', name: 'app_verify_email')]
+    #[Route('/verify/email', methods: ['GET'])]
     public function verifyUserEmail(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

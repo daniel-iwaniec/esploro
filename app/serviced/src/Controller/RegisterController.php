@@ -35,8 +35,11 @@ class RegisterController extends AbstractController
     #[Route('/register', name: 'register', methods: ['GET', 'POST'])]
     public function register(Request $request,): Response
     {
-        $user = new User();
+        if ($this->getUser()) {
+            return $this->redirectToRoute('index');
+        }
 
+        $user = new User();
         $form = $this->createForm(RegisterForm::class, $user);
         $form->handleRequest($request);
 

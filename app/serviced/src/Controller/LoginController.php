@@ -19,6 +19,10 @@ class LoginController extends AbstractController
     #[Route(path: '/login', name: 'login', methods: ['GET', 'POST'])]
     public function login(): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('index');
+        }
+
         return $this->render('login.html.twig', [
             'last_username' => $this->authenticationUtils->getLastUsername(),
             'error' => $this->authenticationUtils->getLastAuthenticationError(),

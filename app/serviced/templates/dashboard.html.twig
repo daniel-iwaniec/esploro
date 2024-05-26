@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="h3 mb-3 font-weight-normal">Esploro</h1>
+    <h2>Dashboard</h2>
+    <form method="post">
+        <label for="csv">CSV</label>
+        <input type="file" name="csv" id="csv" required>
+
+        <button class="btn btn-lg btn-primary" type="submit">Send</button>
+    </form>
+{% endblock %}

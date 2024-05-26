@@ -33,7 +33,7 @@ class RegisterController extends AbstractController
      * @throws TransportExceptionInterface
      */
     #[Route('/register', name: 'register', methods: ['GET', 'POST'])]
-    public function register(Request $request,): Response
+    public function register(Request $request): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('index');

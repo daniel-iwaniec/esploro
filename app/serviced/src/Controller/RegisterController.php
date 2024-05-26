@@ -32,25 +32,21 @@ class RegisterController extends AbstractController
     /**
      * @throws TransportExceptionInterface
      */
-    #[Route('/register', name: 'register', methods: ['GET'])]
-    public function register(Request $request, ): Response
+    #[Route('/register', name: 'register', methods: ['GET', 'POST'])]
+    public function register(Request $request,): Response
     {
         $user = new User();
+
         $form = $this->createForm(RegisterForm::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword(
-                $this->userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+            $user->setPassword($this->userPasswordHasher->hashPassword($user, $form->get('plainPassword')->getData()));
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            $this->emailVerifier->sendEmailConfirmation('verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('esploro@esploro.lan', 'Esploro'))
                     ->to($user->getEmail())
@@ -66,7 +62,7 @@ class RegisterController extends AbstractController
         ]);
     }
 
-    #[Route('/verify/email', methods: ['GET'])]
+    #[Route('/verify/email', name: 'verify_email', methods: ['GET'])]
     public function verifyUserEmail(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

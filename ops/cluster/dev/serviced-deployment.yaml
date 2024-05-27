@@ -69,18 +69,18 @@ kind: Ingress
 metadata:
   name: backend-ingress
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+#    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "FCGI"
     nginx.ingress.kubernetes.io/fastcgi-index: "index.php"
     nginx.ingress.kubernetes.io/fastcgi-params-configmap: "serviced-ingress-env"
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - serviced.esploro.lan
-      secretName: tls-secret
+#  tls:
+#    - hosts:
+#        - serviced.esploro.lan
+#      secretName: tls-secret
   rules:
-    - host: serviced.esploro.lan
+    - host: webshield.lan
       http:
         paths:
           - path: /

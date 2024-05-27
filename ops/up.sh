@@ -36,8 +36,8 @@ fi
 
 printf "\n\e[1;32m Prepare configuration \e[0m\n\n"
 kubectl apply -f ops/cluster/dev/dev-service-account.yaml
-kubectl apply -f ops/cluster/dev/ghcr-secret.yaml
-kubectl apply -f ops/cluster/dev/tls-secret.yaml
+#kubectl apply -f ops/cluster/dev/ghcr-secret.yaml
+#kubectl apply -f ops/cluster/dev/tls-secret.yaml
 printf "\n\e[1;32m Deploy database \e[0m\n\n"
 kubectl apply -f ops/cluster/dev/database-deployment.yaml
 kubectl rollout status deployment/database
@@ -45,11 +45,12 @@ printf "\n\e[1;32m Deploy mail service \e[0m\n\n"
 kubectl apply -f ops/cluster/dev/mail-deployment.yaml
 kubectl rollout status deployment/mail
 printf "\n\e[1;32m Deploy applications \e[0m\n\n"
-kubectl apply -f ops/cluster/dev/servicea-deployment.yaml
-kubectl rollout status deployment/servicea
-kubectl apply -f ops/cluster/dev/serviceb-deployment.yaml
-kubectl rollout status deployment/serviceb
+#kubectl apply -f ops/cluster/dev/servicea-deployment.yaml
+#kubectl rollout status deployment/servicea
+#kubectl apply -f ops/cluster/dev/serviceb-deployment.yaml
+#kubectl rollout status deployment/serviceb
 kubectl apply -f ops/cluster/dev/serviced-deployment.yaml
 kubectl rollout status deployment/serviced
 
 printf "\n\e[1;32m Done 🎉 \e[0m\n\n"
+printf "\n\e[1;32m Visit http://webshield.lan \e[0m\n\n"

@@ -6,9 +6,8 @@ namespace App\Controller;
 
 use Exception;
 use App\Entity\Transaction;
-use DateTimeImmutable;
+use App\Service\TransactionsReader;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,7 +19,8 @@ class DashboardController extends AbstractController
     private const int CSV_BATCH = 10;
 
     public function __construct(
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
+        private readonly TransactionsReader $transactionReader,
     ) {
     }
 
@@ -31,20 +31,13 @@ class DashboardController extends AbstractController
     {
         if ($request->isMethod('POST')) {
             $file = $request->files->get('csv');
-            assert($file instanceof UploadedFile);
 
-            $fileObject = $file->openFile();
-
-            for ($total = $count = 0; !$fileObject->eof();) {
-                $line = str_getcsv($fileObject->fgets());
-                if ($line === [null]) continue;
-
-                [$amount, $date, $description] = $line;
-
+            $total = $count = 0;
+            foreach ($this->transactionReader->read($file) as $transactionDto) {
                 $transaction = new Transaction();
-                $transaction->setAmount((float) $amount);
-                $transaction->setDate(new DateTimeImmutable($date));
-                $transaction->setDescription($description);
+                $transaction->setAmount($transactionDto->amount);
+                $transaction->setDate($transactionDto->date);
+                $transaction->setDescription($transactionDto->description);
                 $this->entityManager->persist($transaction);
 
                 $count++;

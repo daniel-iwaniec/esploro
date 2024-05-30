@@ -7,11 +7,13 @@ Simple R&D project
 
 After cloning repository run `ops/up.sh`
 
-Some dependencies are needed, `Minikube` and `kubectl` should suffice 
+`Minikube` and `kubectl` should suffice to run this project on Debian/Ubuntu
 
 After that add `10.10.10.10 webshield.lan` in your `/etc/hosts` or equivalent file for ingress to work
 
 After that visit http://webshield.lan/
+
+To review code look at `app/serviced`
 
 ### Description
 
@@ -26,9 +28,16 @@ After login users can upload CSV with transactions, example file:
 19.85,01-06-2024,something new
 ```
 
-First thing I would improve is general architecture, I would divide application into bounded contexts, I would
-utilize CQRS, Ports&Adapters, some concepts from DDD, layers for Presentation/Application/Domain/Infrastructure and so on.
-Right now it is more or less standard symfony. Other than that, I would take grater care for amount handling (float isn't great),
-more precisely handle invalid files and presenting those errors/exceptions on frontend.
+First thing I would improve is general architecture:
+* I would divide application into bounded contexts
+* I would utilize CQRS, Ports&Adapters, some concepts from DDD
+* I would divide it into layers for Presentation/Application/Domain/Infrastructure
 
-I tried to show some more advanced concepts using `TransactionReader`
+Other than that:
+* I would probably create some service for persisting transactions
+* I would properly handle currency (float isn't great)
+* I would more precisely handle invalid CSV files and present those errors/exceptions on frontend
+
+I tried to show some more _advanced_ concepts using `TransactionReader`
+
+You can also look at my other PHP repositories to see more architectural patterns, I just couldnt fit that into ~3hour task

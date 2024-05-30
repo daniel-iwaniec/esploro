@@ -51,6 +51,8 @@ printf "\n\e[1;32m Deploy applications \e[0m\n\n"
 #kubectl rollout status deployment/serviceb
 kubectl apply -f ops/cluster/dev/serviced-deployment.yaml
 kubectl rollout status deployment/serviced
+kubectl exec -t deployment/serviced -- composer install
+kubectl exec -t deployment/serviced -- bin/console d:m:m --no-interaction
 
-printf "\n\e[1;32m Done 🎉 \e[0m\n\n"
+printf "\n\e[1;32m Done 🎉 \e[0m\n"
 printf "\n\e[1;32m Visit http://webshield.lan \e[0m\n\n"

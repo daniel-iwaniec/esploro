@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: servicea
-  labels: { app: servicea }
+  name: servicee
+  labels: { app: servicee }
 spec:
   replicas: 1
   selector:
-    matchLabels: { app: servicea }
+    matchLabels: { app: servicee }
   template:
     metadata:
-      labels: { app: servicea }
+      labels: { app: servicee }
     spec:
       serviceAccountName: dev
       securityContext:
@@ -19,12 +19,12 @@ spec:
       imagePullSecrets:
         - name: ghcr-secret
       containers:
-        - name: servicea
-          image: ghcr.io/daniel-iwaniec/servicea:1.0.4
+        - name: servicee
+          image: ghcr.io/daniel-iwaniec/servicee:1.0.0
           imagePullPolicy: IfNotPresent
           resources:
             requests: { memory: "100Mi", cpu: "100m" }
-            limits: { memory: "250Mi", cpu: "200m" }
+            limits: { memory: "500Mi", cpu: "500m" }
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
@@ -32,38 +32,38 @@ spec:
               name: volume
       volumes:
         - name: volume
-          hostPath: { path: /app/servicea }
+          hostPath: { path: /app/servicee/build/libs }
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: servicea
-  labels: { app: servicea }
+  name: servicee
+  labels: { app: servicee }
 spec:
   type: ClusterIP
-  selector: { app: servicea }
+  selector: { app: servicee }
   ports:
     - name: web
       port: 80
-      targetPort: 80
+      targetPort: 8080
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: servicea-ingress
+  name: servicee-ingress
 spec:
   tls:
     - hosts:
-        - servicea.esploro.lan
+        - servicee.esploro.lan
       secretName: tls-secret
   rules:
-    - host: servicea.esploro.lan
+    - host: servicee.esploro.lan
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: servicea
+                name: servicee
                 port:
                   number: 80

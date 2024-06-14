@@ -26,8 +26,8 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
-#      imagePullSecrets:
-#        - name: ghcr-secret
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: serviced
           image: ghcr.io/daniel-iwaniec/serviced:1.0.0
